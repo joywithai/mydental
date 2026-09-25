@@ -1,0 +1,4 @@
+import {ShieldCheck} from "lucide-react";
+import {SecurityForm} from "@/components/admin/security-form";
+export const metadata={title:"Account security"};
+export default function SecurityPage(){return <div className="mx-auto max-w-3xl"><div className="mb-6"><h2 className="text-2xl font-bold">Account security</h2><p className="mt-1 text-sm text-muted-foreground">Change the administrator password. Choose a unique password before using this system with real patient data.</p></div><div className="mb-5 flex items-start gap-3 rounded-2xl border border-warning/30 bg-warning-soft p-4 text-sm text-warning"><ShieldCheck className="mt-0.5 h-5 w-5 shrink-0"/><p>Demo seed credentials are for local testing only. Replace the demo password before deploying or storing real patient information.</p></div><SecurityForm/></div>}

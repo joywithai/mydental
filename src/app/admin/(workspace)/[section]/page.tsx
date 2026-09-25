@@ -1,0 +1,6 @@
+import {notFound,redirect} from "next/navigation";import {asc,eq} from "drizzle-orm";import {db} from "@/db";import {doctors,equipment} from "@/db/schema";import {resources} from "@/lib/admin-resources";import {ResourceManager} from "@/components/admin/resource-manager";
+export const dynamic="force-dynamic";
+export default async function ResourcePage({params}:{ params: Promise<{ section: string }> }){const {section}=await params;if(section==="settings")redirect("/admin/settings");const config=resources[section];if(!config)notFound();let fields=config.fields;
+if(section==="schedules"||section==="leaves"){const list=await db.select({id:doctors.id,name:doctors.name}).from(doctors).where(eq(doctors.isActive,true)).orderBy(asc(doctors.name));fields=fields.map(f=>f.key==="doctorId"?{...f,options:list.map(x=>x.id),optionLabels:Object.fromEntries(list.map(x=>[x.id,x.name]))}:f);}
+if(section==="maintenance"){const list=await db.select({id:equipment.id,name:equipment.name}).from(equipment).orderBy(asc(equipment.name));fields=fields.map(f=>f.key==="equipmentId"?{...f,options:list.map(x=>x.id),optionLabels:Object.fromEntries(list.map(x=>[x.id,x.name]))}:f);}
+return <ResourceManager resource={section} label={config.label} fields={fields}/>;}

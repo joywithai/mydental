@@ -1,0 +1,222 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Registered theme tokens interpolate once at the root instead of animating
+   hundreds of individual elements (which caused the old flicker/slow sweep). */
+@property --background { syntax: "<color>"; inherits: true; initial-value: #f6f8fa; }
+@property --foreground { syntax: "<color>"; inherits: true; initial-value: #0f172a; }
+@property --card { syntax: "<color>"; inherits: true; initial-value: #ffffff; }
+@property --card-foreground { syntax: "<color>"; inherits: true; initial-value: #0f172a; }
+@property --muted { syntax: "<color>"; inherits: true; initial-value: #eef2f6; }
+@property --muted-foreground { syntax: "<color>"; inherits: true; initial-value: #64748b; }
+@property --border { syntax: "<color>"; inherits: true; initial-value: #e2e8f0; }
+@property --input { syntax: "<color>"; inherits: true; initial-value: #ffffff; }
+@property --primary { syntax: "<color>"; inherits: true; initial-value: #0d9488; }
+@property --primary-hover { syntax: "<color>"; inherits: true; initial-value: #0f766e; }
+@property --primary-foreground { syntax: "<color>"; inherits: true; initial-value: #ffffff; }
+@property --primary-soft { syntax: "<color>"; inherits: true; initial-value: #ccfbf1; }
+@property --primary-soft-foreground { syntax: "<color>"; inherits: true; initial-value: #115e59; }
+@property --accent { syntax: "<color>"; inherits: true; initial-value: #0ea5e9; }
+@property --destructive { syntax: "<color>"; inherits: true; initial-value: #dc2626; }
+@property --destructive-soft { syntax: "<color>"; inherits: true; initial-value: #fee2e2; }
+@property --success { syntax: "<color>"; inherits: true; initial-value: #16a34a; }
+@property --success-soft { syntax: "<color>"; inherits: true; initial-value: #dcfce7; }
+@property --warning { syntax: "<color>"; inherits: true; initial-value: #d97706; }
+@property --warning-soft { syntax: "<color>"; inherits: true; initial-value: #fef3c7; }
+@property --info { syntax: "<color>"; inherits: true; initial-value: #2563eb; }
+@property --info-soft { syntax: "<color>"; inherits: true; initial-value: #dbeafe; }
+@property --ring { syntax: "<color>"; inherits: true; initial-value: #14b8a6; }
+
+:root {
+  --font-geist-sans: Arial, Helvetica, sans-serif;
+  --font-geist-mono: ui-monospace, SFMono-Regular, monospace;
+  --background: #f6f8fa;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --muted: #eef2f6;
+  --muted-foreground: #64748b;
+  --border: #e2e8f0;
+  --input: #ffffff;
+  --primary: #0d9488;
+  --primary-hover: #0f766e;
+  --primary-foreground: #ffffff;
+  --primary-soft: #ccfbf1;
+  --primary-soft-foreground: #115e59;
+  --accent: #0ea5e9;
+  --destructive: #dc2626;
+  --destructive-soft: #fee2e2;
+  --success: #16a34a;
+  --success-soft: #dcfce7;
+  --warning: #d97706;
+  --warning-soft: #fef3c7;
+  --info: #2563eb;
+  --info-soft: #dbeafe;
+  --ring: #14b8a6;
+  --radius: 0.75rem;
+  color-scheme: light;
+}
+
+.dark {
+  --background: #020617;
+  --foreground: #e2e8f0;
+  --card: #0b1220;
+  --card-foreground: #e2e8f0;
+  --muted: #16213a;
+  --muted-foreground: #8ea0b8;
+  --border: #1e293b;
+  --input: #0f1a2e;
+  --primary: #14b8a6;
+  --primary-hover: #0d9488;
+  --primary-foreground: #04211f;
+  --primary-soft: #0c2f2c;
+  --primary-soft-foreground: #5eead4;
+  --accent: #38bdf8;
+  --destructive: #f87171;
+  --destructive-soft: #450a0a;
+  --success: #4ade80;
+  --success-soft: #052e16;
+  --warning: #fbbf24;
+  --warning-soft: #451a03;
+  --info: #60a5fa;
+  --info-soft: #172554;
+  --ring: #14b8a6;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-soft-foreground: var(--primary-soft-foreground);
+  --color-accent: var(--accent);
+  --color-destructive: var(--destructive);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-ring: var(--ring);
+  --radius-card: var(--radius);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--background);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  border-color: var(--border);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+/* One short root-token transition keeps the entire theme change in sync. */
+.theme-transition {
+  transition:
+    --background 240ms ease,
+    --foreground 240ms ease,
+    --card 240ms ease,
+    --card-foreground 240ms ease,
+    --muted 240ms ease,
+    --muted-foreground 240ms ease,
+    --border 240ms ease,
+    --input 240ms ease,
+    --primary 240ms ease,
+    --primary-hover 240ms ease,
+    --primary-foreground 240ms ease,
+    --primary-soft 240ms ease,
+    --primary-soft-foreground 240ms ease,
+    --accent 240ms ease,
+    --destructive 240ms ease,
+    --destructive-soft 240ms ease,
+    --success 240ms ease,
+    --success-soft 240ms ease,
+    --warning 240ms ease,
+    --warning-soft 240ms ease,
+    --info 240ms ease,
+    --info-soft 240ms ease,
+    --ring 240ms ease,
+    background-color 240ms ease,
+    color 240ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-transition { transition-duration: 0.01ms; }
+  html { scroll-behavior: auto; }
+}
+
+/* Keep all interactive controls visibly actionable across public/admin routes. */
+button:not(:disabled),
+a[href],
+[role="button"],
+input[type="checkbox"]:not(:disabled),
+input[type="radio"]:not(:disabled),
+select:not(:disabled),
+summary {
+  cursor: pointer;
+}
+
+button:disabled,
+select:disabled,
+input:disabled {
+  cursor: not-allowed;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 8px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.6;
+}
+.dark input[type="date"]::-webkit-calendar-picker-indicator,
+.dark input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.6;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fade-up 0.5s ease both; }
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in { animation: fade-in 0.25s ease both; }
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-toast-in { animation: toast-in 0.2s ease both; }
