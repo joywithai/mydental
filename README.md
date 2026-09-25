@@ -30,7 +30,7 @@ Generate the session secret with `openssl rand -base64 48`. Never commit `.env`,
 Requirements: Node.js 20.9+ and npm.
 
 ```bash
-git clone https://github.com/joywithai/mydental.git
+git clone --branch arena/01a0d966-mydental https://github.com/joywithai/mydental.git
 cd mydental
 npm ci
 cp .env.example .env
