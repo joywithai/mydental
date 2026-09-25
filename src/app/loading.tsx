@@ -1,0 +1,1 @@
+export default function Loading(){return <main className="mx-auto flex min-h-[60vh] max-w-7xl flex-col items-center justify-center gap-3 px-4"><span className="h-8 w-8 animate-spin rounded-full border-[3px] border-primary border-r-transparent"/><p className="text-sm text-muted-foreground">Loading chamber information…</p></main>}

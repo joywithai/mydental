@@ -1,0 +1,17 @@
+"use client";
+import { useState } from "react";
+import { Search, CalendarDays, UserRound, Clock3, BadgeCheck } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Field, Input } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/card";
+import { formatTime12 } from "@/lib/utils";
+
+type Appt = { reference: string; status: string; date: string; startTime: string; endTime: string; doctorName: string; serviceName: string; patientName: string };
+const statusVariant: Record<string, "warning"|"success"|"default"|"destructive"|"info"> = { PENDING:"warning", CONFIRMED:"success", COMPLETED:"info", CANCELLED:"destructive", RESCHEDULED:"default" };
+export function AppointmentLookup({ initialReference }: { initialReference: string }) {
+ const [reference,setReference]=useState(initialReference); const [phone,setPhone]=useState(""); const [loading,setLoading]=useState(false); const [error,setError]=useState(""); const [result,setResult]=useState<Appt|null>(null);
+ async function submit(e:React.FormEvent){e.preventDefault();setLoading(true);setError("");setResult(null);try{const p=new URLSearchParams({reference,phone});const r=await fetch(`/api/appointments/status?${p}`);const d=await r.json();if(!r.ok||!d.ok)throw new Error(d.message||"Could not find appointment.");setResult(d.appointment);}catch(e){setError(e instanceof Error?e.message:"Please try again.");}finally{setLoading(false);}}
+ return <div className="space-y-5"><Card><CardHeader><CardTitle>Find your booking</CardTitle></CardHeader><CardContent><form onSubmit={submit} className="space-y-4"><Field label="Booking reference" required><Input required value={reference} onChange={e=>setReference(e.target.value.toUpperCase())} placeholder="APT-ABC123"/></Field><Field label="Phone number used to book" required><Input required value={phone} onChange={e=>setPhone(e.target.value)} placeholder="Your phone number"/></Field>{error&&<p className="rounded-lg bg-destructive-soft p-3 text-sm text-destructive">{error}</p>}<Button type="submit" loading={loading} className="w-full"><Search className="h-4 w-4"/>Check status</Button></form></CardContent></Card>
+ {result&&<Card><CardHeader><div className="flex items-start justify-between gap-3"><div><p className="text-xs uppercase tracking-wide text-muted-foreground">Reference</p><CardTitle className="mt-1 font-mono">{result.reference}</CardTitle></div><Badge variant={statusVariant[result.status]||"default"}>{result.status.toLowerCase()}</Badge></div></CardHeader><CardContent className="space-y-3 text-sm"><p className="flex items-center gap-2"><UserRound className="h-4 w-4 text-primary"/>{result.patientName}</p><p><b>Doctor:</b> {result.doctorName}</p><p><b>Service:</b> {result.serviceName}</p><p className="flex items-center gap-2"><CalendarDays className="h-4 w-4 text-primary"/>{new Date(result.date).toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</p><p className="flex items-center gap-2"><Clock3 className="h-4 w-4 text-primary"/>{formatTime12(result.startTime)} – {formatTime12(result.endTime)}</p>{result.status==="CONFIRMED"&&<p className="flex items-center gap-2 rounded-lg bg-success-soft p-3 text-success"><BadgeCheck className="h-4 w-4"/>Your appointment is confirmed.</p>}</CardContent></Card>}</div>;
+}
